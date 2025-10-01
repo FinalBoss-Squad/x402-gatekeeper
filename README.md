@@ -7,7 +7,7 @@ _“The infrastructure to make bots pay 4 fairly, transparently, and instantly.�
 
 ## 💡 Overview
 
-**Paywall, Bot** is a protocol and Celo-integrated platform that monetizes API and web traffic from bots, scrapers, and AI agents using micropayments. Built with `x402 Payment Required`, Celo stablecoins, it transforms abusive or unpaid automation into a sustainable, machine-native economy.
+**Paywall is a platform that monetizes API and web traffic from bots, scrapers, and AI agents using micropayments. Built with `x402 Payment Required`, Celo stablecoins, it transforms abusive or unpaid automation into a sustainable, machine-native economy.
 
 
 ## 🧩 The Problem
