@@ -3,7 +3,7 @@
 **Monetizing internet traffic: Pay-per-Request with Celo**  
 _“The infrastructure to make bots pay 4 fairly, transparently, and instantly.”_
 
----
+
 
 ## 💡 Overview
 
@@ -37,7 +37,6 @@ All managed via a sleek **Telegram Mini-App**.
 
 - ⚡ **x402 Proxy Server** — Adds payment enforcement to any endpoint
 - 🪙 **Smart Contracts on Celo** — Lightweight, fast, and cost-efficient
-- 📱 **Telegram Mini-App** — Manage access rules, view traffic, collect revenue
 - 🤖 **Bot Agent SDK** — Handles payment flow for compliant bots
 - 📊 **Dashboard** — Tracks blocked/paying agents, revenue, and request logs
 
@@ -48,7 +47,6 @@ All managed via a sleek **Telegram Mini-App**.
 - **API Providers** — Monetize automated access fairly
 - **Web Content Platforms** — Protect from scrapers
 - **AI Agent Platforms** — Enable pay-as-you-go data access
-- **Telegram Devs** — Add pay-per-request APIs to bots and tools
 
 ---
 
