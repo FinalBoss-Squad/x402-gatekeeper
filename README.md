@@ -79,21 +79,12 @@ A plug-and-play system that:
 - Signed keys or stake-based access (optional)
 
 
-## 🗺️ Roadmap
-
-- [x] MVP (Celo proxy + Telegram dashboard)
-- [ ] TON smart contract integration
-- [ ] LangChain / Auto-GPT agent SDK
-- [ ] Public API monetization tools
-- [ ] Surge pricing + reputation scoring
-
-
 ## 🧾 License
 
 MIT — use it, improve it, build on it.
 
 
-## 🧠 Made at [Hackathon ORIGINS Token2049]
+## 🧠 Made at Hackathon ORIGINS Token2049
 
 By FinalBOSS Squad 
 
