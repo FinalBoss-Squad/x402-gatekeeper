@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ParameterGenerator } from '@/components/ParameterGenerator';
 import { PaymentMethodCard } from '@/components/PaymentMethodCard';
 import { IntegrationGuide } from '@/components/IntegrationGuide';
+import { Dashboard } from '@/components/Dashboard';
 import { paymentRegistry } from '@/lib/paymentProviders';
 import { Shield, Zap } from 'lucide-react';
 import { toast } from 'sonner';
@@ -54,12 +55,17 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="generate" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="generate">Generate</TabsTrigger>
             <TabsTrigger value="methods">Methods</TabsTrigger>
             <TabsTrigger value="guide">Guide</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            <Dashboard />
+          </TabsContent>
 
           <TabsContent value="generate" className="space-y-6">
             <ParameterGenerator />
