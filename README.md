@@ -1,73 +1,117 @@
-# Welcome to your Lovable project
+# 🤖 PayWall
 
-## Project info
+**Monetizing Automation: Pay-per-Request with Telegram & TON**  
+_“The infrastructure to make bots pay 4 fairly, transparently, and instantly.”_
 
-**URL**: https://lovable.dev/projects/a9ba1620-9fd8-40fc-a6a4-7c84a65917a8
+---
 
-## How can I edit this code?
+## 💡 Overview
 
-There are several ways of editing your application.
+**PayWall, Bot** is a protocol and Telegram-integrated platform that monetizes API and web traffic from bots, scrapers, and AI agents using micropayments. Built with `x402 Payment Required`, Celo stablecoins, and a Telegram Mini App, it transforms abusive or unpaid automation into a sustainable, machine-native economy.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a9ba1620-9fd8-40fc-a6a4-7c84a65917a8) and start prompting.
+## 🧩 The Problem
 
-Changes made via Lovable will be committed automatically to this repo.
+- Bots and AI agents generate massive traffic — often for free
+- This creates **real costs** (bandwidth, compute) for creators and developers
+- There's **no seamless way to require small payments per request**
+- Traditional defenses (IP bans, CAPTCHAs) are blunt and break legitimate use
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🚀 Our Solution
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+A plug-and-play system that:
 
-Follow these steps:
+1. **Intercepts requests** via an x402-compliant proxy
+2. **Returns a payment challenge** with invoice metadata
+3. **Verifies on-chain micropayments** (Celo/TON)
+4. **Grants access** if the bot pays — blocks if it doesn’t
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+All managed via a sleek **Telegram Mini-App**.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🛠️ Key Features
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- ⚡ **x402 Proxy Server** — Adds payment enforcement to any endpoint
+- 🪙 **Smart Contracts on Celo** — Lightweight, fast, and cost-efficient
+- 📱 **Telegram Mini-App** — Manage access rules, view traffic, collect revenue
+- 🤖 **Bot Agent SDK** — Handles payment flow for compliant bots
+- 📊 **Dashboard** — Tracks blocked/paying agents, revenue, and request logs
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 Use Cases
 
-**Use GitHub Codespaces**
+- **API Providers** — Monetize automated access fairly
+- **Web Content Platforms** — Protect from scrapers
+- **AI Agent Platforms** — Enable pay-as-you-go data access
+- **Telegram Devs** — Add pay-per-request APIs to bots and tools
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 💰 Business Model
 
-This project is built with:
+- Micropayment fees per request
+- Prepaid credits and subscriptions
+- Paid access tiers (priority, unlimited, surge-protected)
+- SaaS APIs for devs and companies
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🧠 Tech Stack
 
-Simply open [Lovable](https://lovable.dev/projects/a9ba1620-9fd8-40fc-a6a4-7c84a65917a8) and click on Share -> Publish.
+- Node.js / Express (x402 Proxy)
+- Solidity (Celo smart contract)
+- Telegram WebApp SDK (Mini-App frontend)
+- Web3 / ethers.js (On-chain verification)
+- Celo Alfajores (Testnet for MVP)
+- Python/JS SDK for agent automation
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🧪 Demo Flow
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Crawler hits a protected endpoint
+2. Receives HTTP 402 with invoice ID
+3. Bot pays in cUSD via smart contract
+4. Repeats request with proof of payment
+5. Proxy verifies and serves the resource
+6. Telegram Mini-App dashboard updates in real time
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+
+## 🔒 Security / Anti-Abuse
+
+- Invoice-specific events prevent replay attacks
+- Dynamic pricing adjusts cost during traffic spikes
+- Prepaid quotas for trusted bots
+- Signed keys or stake-based access (optional)
+
+---
+
+## 🗺️ Roadmap
+
+- [x] MVP (Celo proxy + Telegram dashboard)
+- [ ] TON smart contract integration
+- [ ] LangChain / Auto-GPT agent SDK
+- [ ] Public API monetization tools
+- [ ] Surge pricing + reputation scoring
+
+---
+
+## 🧾 License
+
+MIT — use it, improve it, build on it.
+
+---
+
+## 🧠 Made at [Hackathon ORIGINS Token2049]
+
+By FinalBOSS Squad 
+Guilherme dos Santos de Almeida Silva – gsantos@bankbook.com.br
+Ademola Adebowale – ​​ademolajohn844@gmail.com
+Kwang Wei Sim – kwang@adappter.xyz
+Samuel Danso – me.samueldanso@gmail.com 
