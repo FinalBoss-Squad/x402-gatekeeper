@@ -24,7 +24,7 @@ A plug-and-play system that:
 
 1. **Intercepts requests** via an x402-compliant proxy
 2. **Returns a payment challenge** with invoice metadata
-3. **Verifies on-chain micropayments** (Celo/TON)
+3. **Verifies on-chain micropayments** Celo
 4. **Grants access** if the bot pays — blocks if it doesn’t
 
 
