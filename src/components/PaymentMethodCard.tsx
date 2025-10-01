@@ -25,9 +25,9 @@ export const PaymentMethodCard = ({
           <div>
             <CardTitle className="text-lg">{provider.name}</CardTitle>
             <CardDescription className="mt-1">
-              {provider.id === 'lightning' && 'Bitcoin Lightning Network micropayments'}
-              {provider.id === 'stripe' && 'Credit card and digital wallet payments'}
-              {provider.id === 'crypto' && 'Cryptocurrency on-chain payments'}
+              {provider.id === 'lightning' && 'Bitcoin Lightning Network instant micropayments'}
+              {provider.id === 'celo' && 'Celo blockchain payments with CELO & cUSD stablecoins'}
+              {provider.id === 'ton' && 'TON Network fast and low-cost transactions'}
             </CardDescription>
           </div>
           <Switch checked={enabled} onCheckedChange={onToggle} />

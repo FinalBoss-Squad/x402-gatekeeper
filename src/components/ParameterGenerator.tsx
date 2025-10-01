@@ -135,9 +135,10 @@ async function verifyAndServeContent(req, res) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="sats">Satoshis</SelectItem>
+                  <SelectItem value="CELO">CELO</SelectItem>
+                  <SelectItem value="cUSD">cUSD</SelectItem>
+                  <SelectItem value="TON">TON</SelectItem>
                   <SelectItem value="usd">USD</SelectItem>
-                  <SelectItem value="eur">EUR</SelectItem>
-                  <SelectItem value="btc">BTC</SelectItem>
                 </SelectContent>
               </Select>
             </div>

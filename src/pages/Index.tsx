@@ -4,6 +4,7 @@ import { ParameterGenerator } from '@/components/ParameterGenerator';
 import { PaymentMethodCard } from '@/components/PaymentMethodCard';
 import { IntegrationGuide } from '@/components/IntegrationGuide';
 import { Dashboard } from '@/components/Dashboard';
+import { ConversionCalculator } from '@/components/ConversionCalculator';
 import { paymentRegistry } from '@/lib/paymentProviders';
 import { Shield, Zap } from 'lucide-react';
 import { toast } from 'sonner';
@@ -11,8 +12,8 @@ import { toast } from 'sonner';
 const Index = () => {
   const [enabledMethods, setEnabledMethods] = useState<Record<string, boolean>>({
     lightning: true,
-    stripe: true,
-    crypto: false,
+    celo: true,
+    ton: true,
   });
 
   const providers = paymentRegistry.getAll();
@@ -56,8 +57,9 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl grid-cols-4">
+          <TabsList className="grid w-full max-w-3xl grid-cols-5">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="convert">Convert</TabsTrigger>
             <TabsTrigger value="generate">Generate</TabsTrigger>
             <TabsTrigger value="methods">Methods</TabsTrigger>
             <TabsTrigger value="guide">Guide</TabsTrigger>
@@ -65,6 +67,10 @@ const Index = () => {
 
           <TabsContent value="dashboard" className="space-y-6">
             <Dashboard />
+          </TabsContent>
+
+          <TabsContent value="convert" className="space-y-6">
+            <ConversionCalculator />
           </TabsContent>
 
           <TabsContent value="generate" className="space-y-6">

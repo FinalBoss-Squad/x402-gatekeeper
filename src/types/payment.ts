@@ -3,7 +3,7 @@
 export interface PaymentMethod {
   id: string;
   name: string;
-  type: 'lightning' | 'stripe' | 'crypto' | 'custom';
+  type: 'lightning' | 'celo' | 'ton' | 'custom';
   enabled: boolean;
   config: Record<string, any>;
 }

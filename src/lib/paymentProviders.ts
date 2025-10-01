@@ -1,22 +1,33 @@
 import { PaymentProvider, VerificationParams, VerificationResult } from '@/types/payment';
+import { tokenConverter } from './conversionModule';
 
-// Lightning Network Provider (example implementation)
+// Lightning Network Provider
 export class LightningProvider implements PaymentProvider {
   id = 'lightning';
   name = 'Lightning Network';
 
   async generateParams(params: VerificationParams): Promise<any> {
-    // Generate Lightning invoice
+    // Convert amount to satoshis if needed
+    const amountInSats = params.currency === 'sats' 
+      ? params.amount 
+      : tokenConverter.fromUSD(params.amount, 'SATS');
+
+    // Get gas fee info
+    const gasFee = tokenConverter.getGasFee('SATS');
+
     return {
-      invoice: 'lnbc...', // Mock invoice
-      amount: params.amount,
+      invoice: `lnbc${amountInSats}n...`, // Mock Lightning invoice
+      amount: amountInSats,
+      currency: 'sats',
+      gasFee: gasFee.fee,
+      gasFeeUSD: gasFee.feeInUSD,
       expires: params.expiresAt,
       checkUrl: `/api/verify/lightning/${params.contentId}`,
+      network: 'Bitcoin Lightning',
     };
   }
 
   async verify(token: string): Promise<VerificationResult> {
-    // Verify Lightning payment
     return {
       verified: true,
       paymentMethod: this.id,
@@ -28,53 +39,39 @@ export class LightningProvider implements PaymentProvider {
   getConfigSchema() {
     return {
       nodeUrl: { type: 'string', required: true, label: 'Lightning Node URL' },
-      macaroon: { type: 'string', required: true, label: 'Macaroon' },
+      macaroon: { type: 'string', required: true, label: 'Admin Macaroon' },
+      tlsCert: { type: 'string', required: false, label: 'TLS Certificate' },
     };
   }
 }
 
-// Stripe Provider (example implementation)
-export class StripeProvider implements PaymentProvider {
-  id = 'stripe';
-  name = 'Stripe';
+// Celo Network Provider
+export class CeloProvider implements PaymentProvider {
+  id = 'celo';
+  name = 'Celo Network';
 
   async generateParams(params: VerificationParams): Promise<any> {
-    return {
-      clientSecret: 'pi_...', // Mock Stripe payment intent
-      amount: params.amount,
-      currency: params.currency,
-      checkUrl: `/api/verify/stripe/${params.contentId}`,
-    };
-  }
+    // Convert to CELO or cUSD
+    const tokenSymbol = params.currency === 'cUSD' ? 'cUSD' : 'CELO';
+    const amountInToken = params.currency === tokenSymbol
+      ? params.amount
+      : tokenConverter.fromUSD(params.amount, tokenSymbol);
 
-  async verify(token: string): Promise<VerificationResult> {
-    return {
-      verified: true,
-      paymentMethod: this.id,
-      transactionId: token,
-      timestamp: new Date(),
-    };
-  }
+    // Get gas fee info
+    const gasFee = tokenConverter.getGasFee(tokenSymbol);
 
-  getConfigSchema() {
     return {
-      apiKey: { type: 'string', required: true, label: 'Stripe API Key' },
-      webhookSecret: { type: 'string', required: true, label: 'Webhook Secret' },
-    };
-  }
-}
-
-// Crypto Provider (example implementation)
-export class CryptoProvider implements PaymentProvider {
-  id = 'crypto';
-  name = 'Cryptocurrency';
-
-  async generateParams(params: VerificationParams): Promise<any> {
-    return {
-      address: '0x...', // Mock crypto address
-      amount: params.amount,
-      currency: params.currency,
-      checkUrl: `/api/verify/crypto/${params.contentId}`,
+      address: '0x' + '0'.repeat(40), // Mock Celo address
+      amount: amountInToken,
+      currency: tokenSymbol,
+      gasFee: gasFee.fee,
+      gasFeeUSD: gasFee.feeInUSD,
+      network: 'Celo',
+      chainId: 42220, // Celo mainnet
+      checkUrl: `/api/verify/celo/${params.contentId}`,
+      contractAddress: tokenSymbol === 'cUSD' 
+        ? '0x765DE816845861e75A25fCA122bb6898B8B1282a' // cUSD token
+        : null,
     };
   }
 
@@ -90,7 +87,54 @@ export class CryptoProvider implements PaymentProvider {
   getConfigSchema() {
     return {
       walletAddress: { type: 'string', required: true, label: 'Wallet Address' },
-      network: { type: 'select', options: ['ethereum', 'bitcoin', 'solana'], label: 'Network' },
+      privateKey: { type: 'string', required: true, label: 'Private Key (stored securely)' },
+      rpcUrl: { type: 'string', required: false, label: 'Custom RPC URL', default: 'https://forno.celo.org' },
+      tokenType: { type: 'select', options: ['CELO', 'cUSD'], label: 'Token Type', default: 'cUSD' },
+    };
+  }
+}
+
+// TON Network Provider
+export class TONProvider implements PaymentProvider {
+  id = 'ton';
+  name = 'TON Network';
+
+  async generateParams(params: VerificationParams): Promise<any> {
+    // Convert to TON
+    const amountInTON = params.currency === 'TON'
+      ? params.amount
+      : tokenConverter.fromUSD(params.amount, 'TON');
+
+    // Get gas fee info
+    const gasFee = tokenConverter.getGasFee('TON');
+
+    return {
+      address: 'EQ' + 'A'.repeat(46), // Mock TON address (base64)
+      amount: amountInTON,
+      currency: 'TON',
+      gasFee: gasFee.fee,
+      gasFeeUSD: gasFee.feeInUSD,
+      network: 'TON',
+      memo: params.contentId,
+      checkUrl: `/api/verify/ton/${params.contentId}`,
+      paymentUrl: `ton://transfer/${params.contentId}`,
+    };
+  }
+
+  async verify(token: string): Promise<VerificationResult> {
+    return {
+      verified: true,
+      paymentMethod: this.id,
+      transactionId: token,
+      timestamp: new Date(),
+    };
+  }
+
+  getConfigSchema() {
+    return {
+      walletAddress: { type: 'string', required: true, label: 'TON Wallet Address' },
+      apiKey: { type: 'string', required: true, label: 'TONCenter API Key' },
+      network: { type: 'select', options: ['mainnet', 'testnet'], label: 'Network', default: 'mainnet' },
     };
   }
 }
@@ -102,8 +146,8 @@ export class PaymentProviderRegistry {
   constructor() {
     // Register default providers
     this.register(new LightningProvider());
-    this.register(new StripeProvider());
-    this.register(new CryptoProvider());
+    this.register(new CeloProvider());
+    this.register(new TONProvider());
   }
 
   register(provider: PaymentProvider) {
