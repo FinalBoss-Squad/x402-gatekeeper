@@ -1,17 +1,32 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-
-const data = [
-  { time: '00:00', inbound: 45, denied: 12, verified: 33 },
-  { time: '04:00', inbound: 52, denied: 15, verified: 37 },
-  { time: '08:00', inbound: 89, denied: 28, verified: 61 },
-  { time: '12:00', inbound: 134, denied: 42, verified: 92 },
-  { time: '16:00', inbound: 167, denied: 51, verified: 116 },
-  { time: '20:00', inbound: 98, denied: 31, verified: 67 },
-  { time: '23:59', inbound: 76, denied: 23, verified: 53 },
-];
+import { useTrafficData } from '@/hooks/useDashboardData';
+import { Skeleton } from './ui/skeleton';
 
 export const TrafficChart = () => {
+  const { data, isLoading } = useTrafficData();
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Traffic Overview</CardTitle>
+          <CardDescription>Inbound requests vs denied vs verified (last 24h)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[300px]" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const chartData = data?.map(item => ({
+    time: item.time_label,
+    inbound: item.inbound,
+    denied: item.denied,
+    verified: item.verified,
+  })) || [];
+
   return (
     <Card>
       <CardHeader>
@@ -20,7 +35,7 @@ export const TrafficChart = () => {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={data}>
+          <AreaChart data={chartData}>
             <defs>
               <linearGradient id="colorInbound" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />

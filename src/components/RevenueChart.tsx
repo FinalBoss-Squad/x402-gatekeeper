@@ -1,17 +1,31 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from 'recharts';
-
-const data = [
-  { day: 'Mon', revenue: 245, savings: 89 },
-  { day: 'Tue', revenue: 312, savings: 102 },
-  { day: 'Wed', revenue: 289, savings: 95 },
-  { day: 'Thu', revenue: 378, savings: 134 },
-  { day: 'Fri', revenue: 421, savings: 156 },
-  { day: 'Sat', revenue: 198, savings: 67 },
-  { day: 'Sun', revenue: 167, savings: 54 },
-];
+import { useRevenueData } from '@/hooks/useDashboardData';
+import { Skeleton } from './ui/skeleton';
 
 export const RevenueChart = () => {
+  const { data, isLoading } = useRevenueData();
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Revenue & Cost Savings</CardTitle>
+          <CardDescription>Weekly performance overview (USD)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[300px]" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const chartData = data?.map(item => ({
+    day: item.day_label,
+    revenue: Number(item.revenue),
+    savings: Number(item.savings),
+  })) || [];
+
   return (
     <Card>
       <CardHeader>
@@ -20,7 +34,7 @@ export const RevenueChart = () => {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
+          <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
             <XAxis dataKey="day" className="text-xs" />
             <YAxis className="text-xs" />

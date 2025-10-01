@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      dashboard_metrics: {
+        Row: {
+          description: string | null
+          icon_name: string | null
+          id: string
+          metric_change: number | null
+          metric_key: string
+          metric_value: string
+          updated_at: string
+        }
+        Insert: {
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          metric_change?: number | null
+          metric_key: string
+          metric_value: string
+          updated_at?: string
+        }
+        Update: {
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          metric_change?: number | null
+          metric_key?: string
+          metric_value?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payment_requests: {
         Row: {
           amount: number
@@ -100,6 +130,57 @@ export type Database = {
           metadata?: Json | null
           status?: Database["public"]["Enums"]["request_status"]
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      revenue_data: {
+        Row: {
+          day_label: string
+          id: string
+          recorded_at: string
+          revenue: number
+          savings: number
+        }
+        Insert: {
+          day_label: string
+          id?: string
+          recorded_at?: string
+          revenue?: number
+          savings?: number
+        }
+        Update: {
+          day_label?: string
+          id?: string
+          recorded_at?: string
+          revenue?: number
+          savings?: number
+        }
+        Relationships: []
+      }
+      traffic_data: {
+        Row: {
+          denied: number
+          id: string
+          inbound: number
+          recorded_at: string
+          time_label: string
+          verified: number
+        }
+        Insert: {
+          denied?: number
+          id?: string
+          inbound?: number
+          recorded_at?: string
+          time_label: string
+          verified?: number
+        }
+        Update: {
+          denied?: number
+          id?: string
+          inbound?: number
+          recorded_at?: string
+          time_label?: string
+          verified?: number
         }
         Relationships: []
       }

@@ -2,80 +2,93 @@ import { MetricCard } from './MetricCard';
 import { TrafficChart } from './TrafficChart';
 import { RevenueChart } from './RevenueChart';
 import { ActivityLog } from './ActivityLog';
-import { TrendingUp, TrendingDown, DollarSign, ShieldCheck, Ban, Zap } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, ShieldCheck, Ban, Zap, LucideIcon } from 'lucide-react';
+import { useDashboardMetrics } from '@/hooks/useDashboardData';
+import { Skeleton } from './ui/skeleton';
+
+const iconMap: Record<string, LucideIcon> = {
+  Zap,
+  ShieldCheck,
+  Ban,
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+};
+
+const getIconColor = (key: string): string => {
+  const colorMap: Record<string, string> = {
+    total_requests: 'text-primary',
+    verified_payments: 'text-success',
+    denied_requests: 'text-destructive',
+    revenue_generated: 'text-success',
+    cost_savings: 'text-primary',
+    avg_payment_value: 'text-accent',
+    denied_rate: 'text-success',
+    peak_traffic_hour: 'text-secondary',
+  };
+  return colorMap[key] || 'text-primary';
+};
+
+const formatTitle = (key: string): string => {
+  return key
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 export const Dashboard = () => {
+  const { data: metrics, isLoading } = useDashboardMetrics();
+
+  const primaryMetrics = metrics?.slice(0, 4) || [];
+  const secondaryMetrics = metrics?.slice(4) || [];
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Metrics Overview */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
-          title="Total Requests"
-          value="12,843"
-          change={12.5}
-          icon={Zap}
-          iconColor="text-primary"
-          description="Last 30 days"
-        />
-        <MetricCard
-          title="Verified Payments"
-          value="9,234"
-          change={8.3}
-          icon={ShieldCheck}
-          iconColor="text-success"
-          description="72% conversion rate"
-        />
-        <MetricCard
-          title="Denied Requests"
-          value="3,609"
-          change={-4.2}
-          icon={Ban}
-          iconColor="text-destructive"
-          description="28% of total"
-        />
-        <MetricCard
-          title="Revenue Generated"
-          value="$8,945"
-          change={15.8}
-          icon={DollarSign}
-          iconColor="text-success"
-          description="Last 30 days"
-        />
+        {primaryMetrics.map((metric) => (
+          <MetricCard
+            key={metric.metric_key}
+            title={formatTitle(metric.metric_key)}
+            value={metric.metric_value}
+            change={metric.metric_change ?? undefined}
+            icon={iconMap[metric.icon_name] || Zap}
+            iconColor={getIconColor(metric.metric_key)}
+            description={metric.description}
+          />
+        ))}
       </div>
 
       {/* Secondary Metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
-          title="Cost Savings"
-          value="$2,341"
-          change={9.7}
-          icon={TrendingUp}
-          iconColor="text-primary"
-          description="Bandwidth saved"
-        />
-        <MetricCard
-          title="Avg Payment Value"
-          value="$0.97"
-          change={3.2}
-          icon={DollarSign}
-          iconColor="text-accent"
-          description="Per transaction"
-        />
-        <MetricCard
-          title="Denied Rate"
-          value="28.1%"
-          change={-4.2}
-          icon={TrendingDown}
-          iconColor="text-success"
-          description="Improving"
-        />
-        <MetricCard
-          title="Peak Traffic Hour"
-          value="4 PM"
-          icon={Zap}
-          iconColor="text-secondary"
-          description="167 req/hour"
-        />
+        {secondaryMetrics.map((metric) => (
+          <MetricCard
+            key={metric.metric_key}
+            title={formatTitle(metric.metric_key)}
+            value={metric.metric_value}
+            change={metric.metric_change ?? undefined}
+            icon={iconMap[metric.icon_name] || Zap}
+            iconColor={getIconColor(metric.metric_key)}
+            description={metric.description}
+          />
+        ))}
       </div>
 
       {/* Charts */}
