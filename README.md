@@ -1,6 +1,6 @@
 # 🤖 Paywall
 
-**Monetizing internet traffic: Pay-per-Request with Celo**  
+**Monetizing web traffic: Pay-per-Request with Celo**  
 _“The infrastructure to make bots pay 4 fairly, transparently, and instantly.”_
 
 
@@ -55,7 +55,6 @@ A plug-and-play system that:
 
 - Node.js / Express (x402 Proxy)
 - Solidity (Celo smart contract)
-- Telegram WebApp SDK (Mini-App frontend)
 - Web3 / ethers.js (On-chain verification)
 - Celo Alfajores (Testnet for MVP)
 - Python/JS SDK for agent automation
@@ -68,7 +67,6 @@ A plug-and-play system that:
 3. Bot pays in cUSD via smart contract
 4. Repeats request with proof of payment
 5. Proxy verifies and serves the resource
-6. Telegram Mini-App dashboard updates in real time
 
 
 ## 🔒 Security / Anti-Abuse
