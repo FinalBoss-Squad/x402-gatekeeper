@@ -14,7 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      payment_requests: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          expires_at: string | null
+          gas_fee: number | null
+          id: string
+          invoice_data: Json | null
+          net_amount: number | null
+          payment_method: Database["public"]["Enums"]["payment_method_type"]
+          request_id: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          transaction_id: string | null
+          updated_at: string
+          verification_data: Json | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency: string
+          expires_at?: string | null
+          gas_fee?: number | null
+          id?: string
+          invoice_data?: Json | null
+          net_amount?: number | null
+          payment_method: Database["public"]["Enums"]["payment_method_type"]
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          transaction_id?: string | null
+          updated_at?: string
+          verification_data?: Json | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          gas_fee?: number | null
+          id?: string
+          invoice_data?: Json | null
+          net_amount?: number | null
+          payment_method?: Database["public"]["Enums"]["payment_method_type"]
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          transaction_id?: string | null
+          updated_at?: string
+          verification_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_requests_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      requests: {
+        Row: {
+          content_id: string
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          metadata: Json | null
+          status: Database["public"]["Enums"]["request_status"]
+          user_agent: string | null
+        }
+        Insert: {
+          content_id: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          status: Database["public"]["Enums"]["request_status"]
+          user_agent?: string | null
+        }
+        Update: {
+          content_id?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          status?: Database["public"]["Enums"]["request_status"]
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +111,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      payment_method_type: "lightning" | "celo" | "ton"
+      payment_status: "pending" | "verified" | "failed" | "expired"
+      request_status: "inbound" | "denied" | "verified"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +240,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      payment_method_type: ["lightning", "celo", "ton"],
+      payment_status: ["pending", "verified", "failed", "expired"],
+      request_status: ["inbound", "denied", "verified"],
+    },
   },
 } as const
